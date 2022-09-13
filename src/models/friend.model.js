@@ -1,19 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
-      "latlong",
+      "friend",
       {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true,
-        },
-        latitude: {
-          type: DataTypes.DOUBLE,
-          allowNull: false,
-        },
-        longitude: {
-          type: DataTypes.DOUBLE,
-          allowNull: false,
         },
         is_deleted: {
           type: DataTypes.BOOLEAN,
@@ -21,5 +13,9 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: false
         }
       },
+      {
+        updatedAt: false,
+      }
+
     );
   };

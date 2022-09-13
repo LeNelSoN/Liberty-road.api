@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 //Models
-const { PathModel, hikkerModel, latlongModel } = require("../models/index.model");
+const { PathModel, hikkerModel, latlongModel, friendModel, profileModel } = require("../models/index.model");
+const Data = require("./index.db");
 
 //DATA
 const { paths, hikkers, latlong } = require("./index.db");
@@ -15,6 +16,8 @@ const sequelize = new Sequelize("liberty_road", "root", "", {
 const Path = PathModel(sequelize, DataTypes);
 const Hikker = hikkerModel(sequelize, DataTypes);
 const LatLong = latlongModel(sequelize, DataTypes);
+const Friend = friendModel(sequelize, DataTypes);
+const Profile = profileModel(sequelize, DataTypes);
 
 const initDB = () => {
 
@@ -23,7 +26,7 @@ const initDB = () => {
     paths.map(({name, description}) => {
       Path.create({
         name,
-        description
+        description,
       });
     });
     hikkers.map(({username, password, address}) => {
@@ -39,6 +42,8 @@ const initDB = () => {
         longitude
       })
     })
+    Friend.create()
+    Profile.create()
   });
 };
 
@@ -47,5 +52,7 @@ module.exports = {
   initDB,
   Path,
   Hikker,
-  LatLong
+  LatLong,
+  Friend,
+  Profile
 };

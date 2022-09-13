@@ -1,19 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
-      "latlong",
+      "appUser",
       {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true,
         },
-        latitude: {
-          type: DataTypes.DOUBLE,
-          allowNull: false,
+        login: {
+          type: DataTypes.STRING,
+          allowNull: true,
         },
-        longitude: {
-          type: DataTypes.DOUBLE,
-          allowNull: false,
+        password: {
+          type: DataTypes.STRING,
+          allowNull: true,
         },
         is_deleted: {
           type: DataTypes.BOOLEAN,
@@ -21,5 +21,9 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: false
         }
       },
+      {
+        timestamps: true,
+        updatedAt: false,
+      }
     );
   };

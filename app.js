@@ -4,7 +4,7 @@ const app = express();
 const port = 3001;
 const bodyParser = require("body-parser");
 const { initDB } = require('./src/db/sequelize')
-const TableRelation = require('./src/models/relation')
+const TableRelation = require('./src/models/relationship')
 
 app
 .use(morgan("dev"))
@@ -16,32 +16,35 @@ TableRelation();
 //EndPoints:
 
 //Create
-const PostOnePath = require('./src/routes/Post/createPaths');
-PostOnePath(app);
+require('./src/routes/Post/createPaths')(app);
 
-const PostOneHikker = require('./src/routes/Post/createHikkers');
-PostOneHikker(app);
+require('./src/routes/Post/createHikkers')(app);
 
 //READ
-const GetAllPaths = require('./src/routes/Get/findAllPaths');
-GetAllPaths(app);
+require('./src/routes/Get/findAllPaths')(app);
 
-const GetAllHikkers = require('./src/routes/Get/findAllHikkers');
-GetAllHikkers(app);
+require('./src/routes/Get/findAllHikkers')(app);
 
-const GetOnePath = require('./src/routes/Get/findByPkPaths');
-GetOnePath(app); 
+require('./src/routes/Get/findByPkPaths')(app); 
 
-const GetOneHikker = require('./src/routes/Get/findByPkHikkers');
-GetOneHikker(app); 
+require('./src/routes/Get/findByPkHikkers')(app); 
+
+require('./src/routes/Get/getHikkersWithPaths')(app); 
+
+require('./src/routes/Get/getPathWithLatLongs')(app); 
+
 
 //Update
-const PutOne = require('./src/routes/Put/updateHikkers');
-PutOne(app);
+require('./src/routes/Put/updateHikkers')(app);
+
+require('./src/routes/Put/updatePaths')(app);
+
 
 //Delete Hard
-const DeletedOnePath = require('./src/routes/Delete/deletePath.route');
-DeletedOnePath(app);
+require('./src/routes/Delete/deletePath')(app);
+
+require('./src/routes/Delete/deleteHikker')(app);
+
 
 app.listen(port, () =>
 console.log(`L'application est démarrée sur : https://localhost:${port} !`)

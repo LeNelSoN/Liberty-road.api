@@ -5,12 +5,7 @@ module.exports = (app) => {
     Hikker.findByPk(req.params.id)
       .then((hikker) => {
         const message = "L'utilisateur a bien été trouvé !";
-        res.json({ message, data: hikker });
+        hikker.is_deleted ? res.json("L'utilisateur a été supprimé") : res.json({ message, data: hikker });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour trouver l'utilisateur ${req.params.id}: ${error} $`
-        )
-      );
   });
 };

@@ -5,12 +5,7 @@ module.exports = (app) => {
     Path.findByPk(req.params.id)
       .then((path) => {
         const message = "Le Chemin a bien été trouvé !";
-        res.json({ message, data: path });
+        path.is_deleted ? res.json('Le Chemin a été supprimé') : res.json({ message, data: path });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour trouver le chemin numéro ${req.params.id}: ${error} $`
-        )
-      );
   });
 };

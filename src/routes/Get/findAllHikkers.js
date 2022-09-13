@@ -3,14 +3,10 @@ const { Hikker } = require("../../db/sequelize");
 module.exports = (app) => {
   app.get("/api/hikkers", (req, res) => {
     Hikker.findAll()
-      .then((hikker) => {
+      .then((hikkers) => {
         const message = "La Liste des utilisateurs a bien été récupérée.";
-        res.json({ message, data: hikker });
+        hikkers = hikkers.filter(hikker => hikker.is_deleted !== true)
+        res.json({ message, data: hikkers });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour trouver tout les utilisateur: ${error} $`
-        )
-      );
   });
 };
