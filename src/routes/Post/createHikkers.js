@@ -7,10 +7,9 @@ module.exports = (app) => {
         const message = `L'utilisateur ${req.body.username} a bien été crée`;
         res.json({ message, data: hikker });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour créer l'utilisateur' ${req.body.username}: ${error} $`
-        )
-      );
+      .catch(err => {
+        const message = "L'utilisateur n'a pas pu être créé. Réessayer plus tard !"
+        res.status(500).json({message, data: err})
+      })
   });
 };

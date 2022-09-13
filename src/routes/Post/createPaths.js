@@ -7,10 +7,9 @@ module.exports = (app) => {
         const message = `Le Chemin ${req.body.name} a bien été crée`;
         res.json({ message, data: path });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour créer le chemin ${req.body.name}: ${error} $`
-        )
-      );
+      .catch(err => {
+        const message = "Le Chemin n'a pas pu être créé. Réessayer plus tard !"
+        res.status(500).json({message, data: err})
+      })
   });
 };

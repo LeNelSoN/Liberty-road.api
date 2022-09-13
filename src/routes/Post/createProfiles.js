@@ -4,13 +4,12 @@ module.exports = (app) => {
   app.post("/api/profiles", (req, res) => {
     Profile.create(req.body)
       .then((profile) => {
-        const message = `Le Chemin ${req.body.name} a bien été crée`;
+        const message = `Le profile ${req.body.name} a bien été crée`;
         res.json({ message, data: profile });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour créer le profile${req.body.name}: ${error} $`
-        )
-      );
+      .catch(err => {
+        const message = "Le profile n'a pas pu être créé. Réessayer plus tard !"
+        res.status(500).json({message, data: err})
+      })
   });
 };

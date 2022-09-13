@@ -4,13 +4,12 @@ module.exports = (app) => {
   app.post("/api/paths", (req, res) => {
     Friend.create(req.body)
       .then((friend) => {
-        const message = `Le Chemin ${req.body.name} a bien été crée`;
+        const message = `L'amitiée ${req.body.name} a bien été créé`;
         res.json({ message, data: friend });
       })
-      .catch((error) =>
-        console.error(
-          `Il y'a une erreur pour créer la relation ${req.body.name}: ${error} $`
-        )
-      );
+      .catch(err => {
+        const message = "L'amitiée n'a pas pu être créé. Réessayer plus tard !"
+        res.status(500).json({message, data: err})
+      })
   });
 };

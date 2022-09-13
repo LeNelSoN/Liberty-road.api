@@ -8,9 +8,22 @@ module.exports = (app) => {
     })
       .then(_ => {
         Path.findByPk(id).then((path) => {
-          const message = `Le Chemin ${path.name} a bien été modifié !`;
-          res.json({ message, data: path });
+          if (path === null || path.is_deleted) {
+            const message = "Le Chemin n'existe pas";
+            res.status(404).json(message)
+          } else {
+            const message = "Le Chemin a bien été modifié !";
+            res.json({ message, data: path });
+          }
+        })
+        .catch(err => {
+          const message = "Le Chemin n'a pas pu être créé. Réessayer plus tard !"
+          res.status(500).json({message, data: err})
         });
+      })
+      .catch(err => {
+        const message = "Le Chemin n'a pas pu être créé. Réessayer plus tard !"
+        res.status(500).json({message, data: err})
       })
   });
 };
