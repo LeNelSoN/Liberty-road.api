@@ -9,21 +9,18 @@ module.exports = (sequelize, DataTypes) => {
         },
         login: {
           type: DataTypes.STRING,
-          allowNull: true,
+          unique: {
+            msg: 'ce login est déjà utilisé'
+          }
         },
         password: {
           type: DataTypes.STRING,
-          allowNull: true,
         },
         is_deleted: {
           type: DataTypes.BOOLEAN,
           defaultValue: false,
           autoIncrement: false
         }
-      },
-      {
-        timestamps: true,
-        updatedAt: false,
       }
     );
   };
