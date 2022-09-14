@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const app = express();
 const port = 3001;
 const bodyParser = require("body-parser");
-const { initDB } = require('./src/db/sequelize')
+const { initDB, Hikker, Path, LatLong, Profile } = require('./src/db/sequelize')
 const TableRelation = require('./src/models/relationship')
 
 app
@@ -16,34 +16,36 @@ TableRelation();
 //EndPoints:
 
 //Create
-require('./src/routes/Post/createPaths')(app);
-require('./src/routes/Post/createLatlongs')(app);
-require('./src/routes/Post/createHikkers')(app);
-require('./src/routes/Post/createFriends')(app);
-require('./src/routes/Post/createProfiles')(app);
-
+require('./src/routes/Post/create')(app, 'hikkers', Hikker, "L'utilisateur");
+require('./src/routes/Post/create')(app, 'paths', Path, 'Le chemin');
+require('./src/routes/Post/create')(app, 'latlongs', LatLong, 'La Coordonnées');
+require('./src/routes/Post/create')(app, 'profiles', Profile, 'Le Profile');
 
 //READ
-require('./src/routes/Get/findAllPaths')(app);
-require('./src/routes/Get/findAllHikkers')(app);
-require('./src/routes/Get/findByPkPaths')(app); 
-require('./src/routes/Get/findByPkHikkers')(app); 
+require('./src/routes/Get/findAll')(app, 'hikkers', Hikker, "L'utilisateur");
+require('./src/routes/Get/findAll')(app, 'paths', Path, 'Le chemin');
+require('./src/routes/Get/findAll')(app, 'latlongs', LatLong, 'La Coordonnée');
+require('./src/routes/Get/findAll')(app, 'profiles', Profile, 'Le Profile');
+
+require('./src/routes/Get/findByPk')(app, 'hikkers', Hikker, "L'utilisateur"); 
+require('./src/routes/Get/findByPk')(app, 'paths', Path, 'Le chemin'); 
+require('./src/routes/Get/findByPk')(app, 'latlongs', LatLong, 'La Coordonnée'); 
+require('./src/routes/Get/findByPk')(app, 'profiles', Profile, 'Le Profile'); 
+
 require('./src/routes/Get/getHikkersWithPaths')(app); 
 require('./src/routes/Get/getPathWithLatLongs')(app); 
 
 //Update
-require('./src/routes/Put/updateHikkers')(app);
-require('./src/routes/Put/updatePaths')(app);
-require('./src/routes/Put/updateLatlongs')(app);
-require('./src/routes/Put/updateProfiles')(app);
+require('./src/routes/Put/update')(app, 'hikkers', Hikker, "L'utilisateur");
+require('./src/routes/Put/update')(app, 'paths', Path, 'Le chemin');
+require('./src/routes/Put/update')(app, 'latlongs', LatLong, 'La Coordonnée');
+require('./src/routes/Put/update')(app, 'profiles', Profile, 'Le Profile');
 
-//Delete Hard
-require('./src/routes/Delete/deletePath')(app);
-require('./src/routes/Delete/deleteHikker')(app);
-require('./src/routes/Delete/deleteFriend')(app);
-require('./src/routes/Delete/deleteLatlong')(app);
-require('./src/routes/Delete/deleteProfile')(app);
-
+//Delete
+require('./src/routes/Delete/delete')(app, 'hikkers', Hikker, "L'utilisateur");
+require('./src/routes/Delete/delete')(app, 'paths', Path, 'Le chemin');
+require('./src/routes/Delete/delete')(app, 'latlongs', LatLong, 'La Coordonnée');
+require('./src/routes/Delete/delete')(app, 'profiles', Profile, 'Le Profile');
 
 //ERREUR 404
 app.use(({res}) => {
