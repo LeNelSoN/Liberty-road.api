@@ -1,13 +1,20 @@
 const express = require("express");
-const morgan = require("morgan");
+
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 5000;
+
 const bodyParser = require("body-parser");
 const { initDB, Hikker, Path, LatLong, Profile, Friend } = require('./src/db/sequelize')
 const TableRelation = require('./src/models/relationship')
 
+const swaggerUi = require('swagger-ui-express');
+const YAML= require('yamljs');
+const swaggerJsDocs=YAML.load('./api.yaml');
+
+//Documentation: http://localhost:5000/api-docs/
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs));
+
 app
-.use(morgan("dev"))
 .use(bodyParser.json());
 
 initDB();
@@ -15,11 +22,10 @@ TableRelation();
 
 //EndPoints:
 const tableForRoutes = [
-    ['hikkers', Hikker, "L'utilisateur"],
-    ['paths', Path, 'Le chemin'],
-    ['latlongs', LatLong , 'La Coordonnées'],
-    ['profiles', Profile, 'Le Profile'],
-    ['friends', Friend, "L'amitié"]
+    ['hikkers', Hikker, "utilisateur"],
+    ['paths', Path, 'chemin'],
+    ['latlongs', LatLong , 'Coordonnées'],
+    ['profiles', Profile, 'Profile'],
 ]
 
 tableForRoutes.map(
@@ -36,6 +42,9 @@ tableForRoutes.map(
     }
 )
 
+//LOGIN
+require('./src/routes/login')(app);
+
 //ERREUR 404
 app.use(({res}) => {
     const message = 'Impossible de trouver la ressource demandée ! Essayer une autre URL !';
@@ -43,6 +52,6 @@ app.use(({res}) => {
 })
 
 app.listen(port, () =>
-console.log(`L'application est démarrée sur : https://localhost:${port} !`)
+console.log(`L'application est démarrée sur : http://localhost:${port} !`)
 );
 

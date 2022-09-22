@@ -1,5 +1,8 @@
+const auth = require('../auth/auth')
+
+const { LatLong } = require('../db/sequelize')
 module.exports = (app, url, model, messageCible) => {
-  app.post(`/api/${url}`, (req, res) => {
+  app.post(`/api/${url}`, auth, (req, res) => {
     model.create(req.body)
       .then((item) => {
         const message = `${messageCible} ${req.body.name} a bien été crée`;

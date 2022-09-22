@@ -1,8 +1,9 @@
 const { Hikker, Path, LatLong } = require('../db/sequelize')
+const auth = require('../auth/auth')
 
 module.exports = (app, url, model, messageCible) => {
-  app.get(`/api/${url}/:id/:opt`, (req, res) => {
-    if (url === "hikkers" && req.params.opt === "paths") {
+  app.get(`/api/${url}/:id/`, auth, (req, res) => {
+    if (url === "hikkers" && req.query.withPaths) {
       Hikker.findByPk(req.params.id).then((hikker) => {
         Path.findAll({
           where: {
@@ -12,10 +13,10 @@ module.exports = (app, url, model, messageCible) => {
           const message = "L'utilisateur a bien été trouvé !";
           hikker.is_deleted
             ? res.status(403).json("L'utilisateur a été supprimé")
-            : res.json({ message, data: hikker, paths });
+            : res.json({ message, data: {hikker,paths} });
         });
       });
-    } else if (url === "paths" && req.params.opt === "latlongs") {
+    } else if (url === "paths" && req.query.withLatLongs) {
       Path.findByPk(req.params.id).then((path) => {
         LatLong.findAll({
           where: {
@@ -25,7 +26,7 @@ module.exports = (app, url, model, messageCible) => {
           const message = "Le chemin a bien été trouvé !";
           path.is_deleted
             ? res.status(403).json("Le chemin a été supprimé")
-            : res.json({ message, data: path, latlongs });
+            : res.json({ message, data: {path, latlongs} });
         });
       });
     } else {

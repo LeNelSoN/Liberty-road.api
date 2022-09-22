@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const bcrypt = require('bcrypt')
 
 //Models
 const { PathModel, hikkerModel, latlongModel, friendModel, profileModel } = require("../models/index.model");
@@ -7,11 +8,16 @@ const Data = require("./index.db");
 //DATA
 const { paths, hikkers, latlong } = require("./index.db");
 
-const sequelize = new Sequelize("liberty_road", "root", "", {
-  host: "localhost",
-  dialect: "mysql",
-  logging: false,
-});
+let sequelize;
+if (process.env.NODE_ENV === 'development') {
+  sequelize = new Sequelize("liberty_road", "root", "", {
+    host: "localhost",
+    dialect: "mysql",
+    logging: false,
+  });
+}else{
+  //...
+}
 
 const Path = PathModel(sequelize, DataTypes);
 const Hikker = hikkerModel(sequelize, DataTypes);
@@ -21,7 +27,9 @@ const Profile = profileModel(sequelize, DataTypes);
 
 const initDB = () => {
 
-  return sequelize.sync({ force: true }).then((_) => {
+  return sequelize.sync(
+    { force: true }
+    ).then((_) => {
     console.log('la base de donnée "Liberty Road" a bien été synchronisée.');
     paths.map(({name, description}) => {
       Path.create({
@@ -43,7 +51,9 @@ const initDB = () => {
       })
     })
     Friend.create()
-    Profile.create()
+
+    bcrypt.hash('Mado', 10)
+    .then(hash => Profile.create({login:'Valentin', password: hash}))
   });
 };
 

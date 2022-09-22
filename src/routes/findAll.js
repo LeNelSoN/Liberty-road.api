@@ -1,5 +1,7 @@
+const auth = require('../auth/auth')
+
 module.exports = (app, url, model, messageCible) => {
-  app.get(`/api/${url}`, (req, res) => {
+  app.get(`/api/${url}`, auth, (req, res) => {
     model.findAll({
       where : 
       {is_deleted:false}}

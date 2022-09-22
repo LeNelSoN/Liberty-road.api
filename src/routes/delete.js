@@ -1,5 +1,7 @@
+const auth = require('../auth/auth')
+
 module.exports = (app, url, model, messageCible) => {
-  app.patch(`/api/${url}/:id`, (req, res) => {
+  app.patch(`/api/${url}/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id);
     model
       .update(

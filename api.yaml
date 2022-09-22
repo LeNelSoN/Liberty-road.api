@@ -1,0 +1,276 @@
+swagger: "2.0"
+info:
+  title: Liberty Road RESTfull API
+  description: Documention pour l'utisation de l'API Rest de Liberty Road. Réalisé par Valentin Nelis.
+  version: '1.0.0'
+  contact:
+    email: nelis.valentin@gmail.com
+  license:
+    name: Apache 2.0
+    url: "http://apache.org"
+  servers:
+    -url: "http://localhost:5000"
+    description: Le serveur local
+
+paths:
+#GET
+  /api/hikkers:
+    get:
+      summary: Renvoie la liste de tous les Utilisateurs.
+      description: Permet de récupérer la liste de tous les Utilsateurs enregistrés dans la base de données.
+      responses:
+        200:
+          description: La liste des utilisateurs a bien été récupérée.  
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    username:
+                      type: string
+                    address:
+                      type: string
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    appUserId:
+                      type: integer
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+        500:
+          description: La liste des utilisateurs n'a pas pu être trouvé. Réessayer plus tard !
+  
+  /api/hikkers/{hikkerId}:
+    get:
+      summary: Renvoie un objet utilisateur
+      description: Renvoie l'utilisateur ayant l'id du chemin dans un format JSON
+      parameters:
+        - name : hikkerId
+          in: path
+          required: true
+          schema: 
+            type: integer
+        - in: query
+          name: withPaths
+          type: boolean
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties: 
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    username:
+                      type: string
+                    address: 
+                      type: string
+                    is_deleted: 
+                      type: boolean
+                    createdAt: 
+                      type: string
+                    appUserId:
+                      type: integer
+              paths:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    hikkerId:
+                      type: integer                
+        403:
+          description: L'utilisateur a été supprimé
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+
+  /api/paths:
+    get:
+      summary: Renvoie la liste de tous les Chemins.
+      description: Permet de récupérer la liste de tous les Chemins enregistrés dans la base de données sans les coordonnées.
+      responses:
+        200:
+          description: La liste des Chemins a bien été récupérée.   
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    hikkerId:
+                      type: integer
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+        500:
+          description: La liste des Chemins n'a pas pu être trouvé. Réessayer plus tard !
+  
+  /api/paths/{pathId}:
+    get:
+      summary: Renvoie un objet chemin
+      description: Renvoie le chemin ayant l'id correspondant dans un format JSON
+      parameters:
+        - name : pathId
+          in: path
+          required: true
+          schema: 
+            type: integer
+        - in: query
+          name: withLatLongs
+          type: boolean
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties: 
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description: 
+                      type: string
+                    is_deleted: 
+                      type: boolean
+                    createdAt: 
+                      type: string
+                    hikkerId:
+                      type: integer
+              latlongs:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    latitude:
+                      example: 50.6145
+                    longitude:
+                      example: 3.9752
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    updateAt:
+                      type: integer
+                    pathId: 
+                      type: integer 
+        403:
+          description: L'utilisateur a été supprimé
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+
+  /api/latlongs:
+    get:
+      summary: Renvoie la liste de toutes les coordonées GPS.
+      description: Permet de récupérer la liste de toutes les coordonées GPS enregistrés dans la base de données.
+      responses:
+        200:
+          description: La liste de toutes les coordonées GPS a bien été récupérée. 
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    latitude:
+                      example: 50.6145
+                    longitude:
+                      example: 3.9752
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    updateAt:
+                      type: integer
+                    pathId: 
+                      type: integer  
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+        500:
+          description: La liste de toutes les coordonées GPS n'a pas pu être trouvé. Réessayer plus tard !
+  /api/profiles:
+    get:
+      summary: Renvoie la liste de touts les profils.
+      description: Permet de récupérer la liste de tous les profils dans la base de données.
+      responses:
+        200:
+          description: La liste de tous les profils a bien été récupérée.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              data:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    login:
+                      type: string
+                    password:
+                      type: string
+                    is_deleted:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    updateAt:
+                      type: integer
+                    hikkerId: 
+                      type: integer  
+        404:
+          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
+        500:
+          description: La liste de tous les profils n'a pas pu être trouvé. Réessayer plus tard !
