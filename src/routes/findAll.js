@@ -2,10 +2,7 @@ const auth = require('../auth/auth')
 
 module.exports = (app, url, model, messageCible) => {
   app.get(`/api/${url}`, auth, (req, res) => {
-    model.findAll({
-      where : 
-      {is_deleted:false}}
-    )
+    model.findAll()
       .then((items) => {
         const message = `La liste des ${messageCible} a bien été récupérée.`;
         res.json({ message, data: items });

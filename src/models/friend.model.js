@@ -6,15 +6,12 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.INTEGER,
           primaryKey: true,
           autoIncrement: true,
-        },
-        is_deleted: {
-          type: DataTypes.BOOLEAN,
-          defaultValue: false,
-          autoIncrement: false
         }
       },
       {
         updatedAt: false,
+        timestamps: true,
+        paranoid: true  
       }
 
     );

@@ -15,12 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: {
           type: DataTypes.STRING,
-        },
-        is_deleted: {
-          type: DataTypes.BOOLEAN,
-          defaultValue: false,
-          autoIncrement: false
         }
+      },
+      {
+        timestamps: true,
+        paranoid: true
       }
     );
   };

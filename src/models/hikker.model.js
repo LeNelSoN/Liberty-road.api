@@ -14,17 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       address: {
         type: DataTypes.TEXT,
         allowNull: false,
-      },
-      is_deleted: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        autoIncrement: false
       }
     },
     {
       timestamps: true,
-      createdAT: "created",
-      updatedAt: false,
+      paranoid: true
     }
   );
 };

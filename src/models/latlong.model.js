@@ -14,12 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         longitude: {
           type: DataTypes.DOUBLE,
           allowNull: false,
-        },
-        is_deleted: {
-          type: DataTypes.BOOLEAN,
-          defaultValue: false,
-          autoIncrement: false
         }
       },
+      {
+        timestamps: true,
+        paranoid: true
+      }
     );
   };

@@ -3,23 +3,10 @@ const auth = require('../auth/auth')
 module.exports = (app, url, model, messageCible) => {
   app.patch(`/api/${url}/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id);
-    model
-      .update(
-        { is_deleted: true },
-        {
-          where: { id: id },
-        }
-      )
-      .then((_) => {
-        model.findByPk(id).then((item) => {
-          if (item === null || item.is_deleted) {
-            const message = `${messageCible} n'existe pas`;
-            res.status(403).json(messageCible);
-          } else {
-            const message = `${messageCible} a bien été modifié !`;
-            res.json({ message, data: item });
-          }
-        });
+    model.destroy({where: {id : id}})
+      .then(_ => {
+            const message = `${messageCible} a bien été supprimé !`;
+            res.json({ message});
       })
       .catch((err) => {
         const message = `${messageCible} n'a pas pu être supprimé. Réessayer plus tard !`;

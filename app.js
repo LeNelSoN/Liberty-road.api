@@ -22,10 +22,11 @@ TableRelation();
 
 //EndPoints:
 const tableForRoutes = [
-    ['hikkers', Hikker, "utilisateur"],
-    ['paths', Path, 'chemin'],
-    ['latlongs', LatLong , 'Coordonnées'],
-    ['profiles', Profile, 'Profile'],
+    ['hikkers', Hikker, "utilisateur(s)"],
+    ['paths', Path, 'chemin(s)'],
+    ['latlongs', LatLong , 'Coordonnée(s)'],
+    ['profiles', Profile, 'Profile(s)'],
+    ['friends', Friend, 'Amitié']
 ]
 
 tableForRoutes.map(

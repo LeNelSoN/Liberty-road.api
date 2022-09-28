@@ -52,8 +52,10 @@ const initDB = () => {
     })
     Friend.create()
 
+    bcrypt.hash('sdfsdf54sdfH', 10)
+    .then(hash => Profile.create({login:'Mouloude', password: hash, hikkerId: 1}))
     bcrypt.hash('Mado', 10)
-    .then(hash => Profile.create({login:'Valentin', password: hash}))
+    .then(hash => Profile.create({login:'Valentin', password: hash, hikkerId: 2}))
   });
 };
 

@@ -3,7 +3,7 @@ const auth = require('../auth/auth')
 
 module.exports = (app, url, model, messageCible) => {
   app.get(`/api/${url}/:id/`, auth, (req, res) => {
-    if (url === "hikkers" && req.query.withPaths) {
+    if (url === "hikkers" && req.query.with == "paths") {
       Hikker.findByPk(req.params.id).then((hikker) => {
         Path.findAll({
           where: {
@@ -11,12 +11,14 @@ module.exports = (app, url, model, messageCible) => {
           },
         }).then((paths) => {
           const message = "L'utilisateur a bien été trouvé !";
-          hikker.is_deleted
-            ? res.status(403).json("L'utilisateur a été supprimé")
-            : res.json({ message, data: {hikker,paths} });
+          res.json({message, data: hikker, paths})
         });
+      })      
+      .catch(err => {
+        const message = `La liste des ${messageCible} n'a pas pu être trouvé. Réessayer plus tard !`
+        res.status(500).json({message, data: err})
       });
-    } else if (url === "paths" && req.query.withLatLongs) {
+    } else if (url === "paths" && req.query.with == "latlongs") {
       Path.findByPk(req.params.id).then((path) => {
         LatLong.findAll({
           where: {
@@ -24,18 +26,27 @@ module.exports = (app, url, model, messageCible) => {
           },
         }).then((latlongs) => {
           const message = "Le chemin a bien été trouvé !";
-          path.is_deleted
-            ? res.status(403).json("Le chemin a été supprimé")
-            : res.json({ message, data: {path, latlongs} });
-        });
+          res.json({message, data: path, latlongs})
+        })      
+        .catch(err => {
+          const message = `La liste des ${messageCible} n'a pas pu être trouvé. Réessayer plus tard !`
+          res.status(500).json({message, data: err})
+        });;
       });
     } else {
       model.findByPk(req.params.id).then((item) => {
+        if(item === null) {
+          const message = `${messageCible} a été supprimé!`;
+          res.status(403).json({message})
+          return
+        }
         const message = `${messageCible} a bien été trouvé !`;
-        item.is_deleted
-          ? res.status(403).json("L'utilisateur a été supprimé")
-          : res.json({ message, data: item });
-      });
+        res.json({message, data: item})
+      })      
+      .catch(err => {
+        const message = `La liste des ${messageCible} n'a pas pu être trouvé. Réessayer plus tard !`
+        res.status(500).json({message, data: err})
+      });;
     }
-  });
+  })      
 };
