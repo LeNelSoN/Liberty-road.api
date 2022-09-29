@@ -10,6 +10,6 @@ module.exports = TableRelation = () => {
     Hikker.hasOne(Profile);
     Profile.hasOne(Hikker);
 
-    Hikker.belongsToMany(Profile, { through: Friend });
-    Profile.belongsToMany(Hikker, { through: Friend });
+    // TODO Hikker.belongsToMany(Profile, { through: Friend });
+    // TODO Profile.belongsToMany(Hikker, { through: Friend });
   }

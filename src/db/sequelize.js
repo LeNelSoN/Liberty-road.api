@@ -29,7 +29,8 @@ const initDB = () => {
 
   return sequelize.sync(
     { force: true }
-    ).then((_) => {
+    )
+    .then((_) => {
     console.log('la base de donnée "Liberty Road" a bien été synchronisée.');
     paths.map(({name, description}) => {
       Path.create({
@@ -52,10 +53,8 @@ const initDB = () => {
     })
     Friend.create()
 
-    bcrypt.hash('sdfsdf54sdfH', 10)
-    .then(hash => Profile.create({login:'Mouloude', password: hash, hikkerId: 1}))
-    bcrypt.hash('Mado', 10)
-    .then(hash => Profile.create({login:'Valentin', password: hash, hikkerId: 2}))
+    bcrypt.hash('LePassword', 10)
+    .then(hash => Profile.create({login:'SuperUtilisateur', password: hash, isAdmin: 1}))
   });
 };
 

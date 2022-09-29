@@ -46,6 +46,9 @@ tableForRoutes.map(
 //LOGIN
 require('./src/routes/login')(app);
 
+//REGISTRATION
+require('./src/routes/registration')(app);
+
 //ERREUR 404
 app.use(({res}) => {
     const message = 'Impossible de trouver la ressource demandée ! Essayer une autre URL !';

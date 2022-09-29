@@ -2,7 +2,7 @@ const auth = require('../auth/auth')
 
 const { LatLong } = require('../db/sequelize')
 module.exports = (app, url, model, messageCible) => {
-  app.post(`/api/${url}`, auth, (req, res) => {
+  app.post(`/api/${url}`, (req, res) => {
     if(url == "paths"){
       model.create(req.body)
       .then(item => {

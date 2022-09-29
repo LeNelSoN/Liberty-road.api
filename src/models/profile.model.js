@@ -1,3 +1,4 @@
+
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
       "appUser",
@@ -15,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: {
           type: DataTypes.STRING,
+        },
+        isAdmin: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false,
+          allowNull: false
         }
       },
       {

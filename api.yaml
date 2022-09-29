@@ -12,10 +12,15 @@ info:
     -url: "http://localhost:5000"
     description: Le serveur local
 
+tags:
+  - name: hikkers
+    description: Tout concernants les profiles utilisateurs
 paths:
 #GET
   /api/hikkers:
     get:
+      tags:
+        - hikkers
       summary: Renvoie la liste de tous les Utilisateurs.
       description: Permet de récupérer la liste de tous les Utilsateurs enregistrés dans la base de données.
       responses:
@@ -50,6 +55,8 @@ paths:
   
   /api/hikkers/{hikkerId}:
     get:
+      tags:
+        - hikkers
       summary: Renvoie un objet utilisateur
       description: Renvoie l'utilisateur ayant l'id du chemin dans un format JSON
       parameters:

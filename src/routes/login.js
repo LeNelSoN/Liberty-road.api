@@ -1,4 +1,4 @@
-const { Profile } = require('../db/sequelize')
+const { Profile, Hikker } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const privatekey = require('../auth/private_key')

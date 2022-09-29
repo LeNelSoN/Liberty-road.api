@@ -1,17 +1,18 @@
 const { Hikker, Path, LatLong } = require('../db/sequelize')
-const auth = require('../auth/auth')
+const auth = require('../auth/auth');
 
 module.exports = (app, url, model, messageCible) => {
   app.get(`/api/${url}/:id/`, auth, (req, res) => {
     if (url === "hikkers" && req.query.with == "paths") {
       Hikker.findByPk(req.params.id).then((hikker) => {
+        const id = req.params.id
         Path.findAll({
-          where: {
-            hikkerId: req.params.id,
-          },
+          where:{
+            hikkerId: id
+          }
         }).then((paths) => {
           const message = "L'utilisateur a bien été trouvé !";
-          res.json({message, data: hikker, paths})
+          res.json({message, data: {hikker, paths}})
         });
       })      
       .catch(err => {
@@ -26,7 +27,7 @@ module.exports = (app, url, model, messageCible) => {
           },
         }).then((latlongs) => {
           const message = "Le chemin a bien été trouvé !";
-          res.json({message, data: path, latlongs})
+          res.json({message, data: {path, latlongs}})
         })      
         .catch(err => {
           const message = `La liste des ${messageCible} n'a pas pu être trouvé. Réessayer plus tard !`
