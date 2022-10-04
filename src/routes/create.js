@@ -2,7 +2,7 @@ const auth = require('../auth/auth')
 
 const { LatLong } = require('../db/sequelize')
 module.exports = (app, url, model, messageCible) => {
-  app.post(`/api/${url}`, (req, res) => {
+  app.post(`/api/${url}`, auth, (req, res) => {
     if(url == "paths"){
       model.create(req.body)
       .then(item => {
@@ -23,7 +23,7 @@ module.exports = (app, url, model, messageCible) => {
               return item
             })
             .then((item) => {
-              const message = `${messageCible} ${req.body.name} a bien été crée`;
+              const message = `${messageCible} a bien été crée`;
               res.json({ message, data: item });
               return
             })
@@ -34,10 +34,11 @@ module.exports = (app, url, model, messageCible) => {
         const message = `${messageCible} n'a pas pu être créé. Réessayer plus tard !`
         res.status(500).json({message, data: err})
       })
-    }else{
+    }
+    else if(url == 'friends'){
       model.create(req.body)
       .then((item) => {
-        const message = `${messageCible} ${req.body.name} a bien été crée`;
+        const message = `${messageCible} a bien été crée`;
         res.json({ message, data: item });
       })
       .catch(err => {

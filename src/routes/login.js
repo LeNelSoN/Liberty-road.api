@@ -1,4 +1,4 @@
-const { Profile, Hikker } = require('../db/sequelize')
+const { Profile } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const privatekey = require('../auth/private_key')
@@ -8,7 +8,7 @@ module.exports = (app) => {
     Profile.findOne({ where: { login: req.body.login } }).then(user => {
         if(!user){
             const message = "L'utilisateur demandé n'éxiste pas"
-            return res.status(404).json({message})
+            return res.status(400).json({message})
         }
 
       bcrypt.compare(req.body.password, user.password)
@@ -22,7 +22,7 @@ module.exports = (app) => {
         const token = jwt.sign(
           { userId: user.id },
           privatekey,
-          {expiresIn: '24h'}
+          { expiresIn: '24h' }
         )
 
         const message = `L'utilisateur a été connecté avec succés`;
@@ -31,7 +31,7 @@ module.exports = (app) => {
     })
     .catch(err => {
         const message = "L'utilisateur n'a pas pu être connecté. Réessayez plus tard !"
-        return res.json({message, data: err})
+        return res.status(402).json({message, data: err})
     })
   })
 }

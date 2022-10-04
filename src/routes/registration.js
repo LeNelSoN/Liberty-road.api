@@ -6,15 +6,15 @@ module.exports = (app) => {
         const login = req.body.login;
         const pseudo = req.body.pseudo
         const password = req.body.password
-
-        if (login === null ||password === null)
+        const address = req.body.address
+        if (login === null || login === undefined || password === null || password === undefined)
         {
-            return res.status(400).json({"error":"parametre(s) manquant"})
+            return res.status(400).json({error:"parametre(s) manquant"})
         }else{
             Profile.findOne({ where: { login: login } }).then(user => {
                 if(user){
-                    const message = "L'utilisateur demandé éxiste déjà"
-                    return res.status(400).json({message})
+                    const message = "L'utilisateur demandé existe déjà"
+                    return res.status(409).json({message})
                 }
                 const appUserId = 0;
                 bcrypt.hash(password, 10)
@@ -22,12 +22,15 @@ module.exports = (app) => {
                         return Profile.create({login, password: hash})
                     })
                     .then(profil=> {
-                        
-                        return profil.createHikker({username: pseudo})
-                        //TODO mettre a jour l'id
+                        const {dataValues:{id}} = profil
+                        return profil.createHikker({username: pseudo, address})
                     })
-                    .then(_ => {
-                        return res.status(201).json({message: "l'utilisateur a été créé"}) 
+                    .then(hikker => {
+                        const {dataValues:{id}, appUserId} = hikker
+                        console.log(id, appUserId)
+                        return Profile.update({hikkerId:id}, {
+                            where: { id: appUserId },
+                          }).then(_ => res.status(201).json({message: "l'utilisateur a été créé"}))
                     })
                     .catch(err => {
                         const message = "L'utilisateur n'a pas pu être créé. Réessayez plus tard !"

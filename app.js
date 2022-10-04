@@ -29,6 +29,8 @@ const tableForRoutes = [
     ['friends', Friend, 'Amitié']
 ]
 
+
+
 tableForRoutes.map(
     item => {
         //Create

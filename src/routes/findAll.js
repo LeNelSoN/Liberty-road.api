@@ -2,6 +2,7 @@ const auth = require('../auth/auth')
 
 module.exports = (app, url, model, messageCible) => {
   app.get(`/api/${url}`, auth, (req, res) => {
+    //TODO IsAdmin verif
     model.findAll()
       .then((items) => {
         const message = `La liste des ${messageCible} a bien été récupérée.`;
