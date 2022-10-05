@@ -1,9 +1,10 @@
 const auth = require('../auth/auth');
 const { LatLong } = require('../db/sequelize');
-
+//TODO refaire l'update de path
 module.exports = (app, url, model, messageCible) => {
   app.put(`/api/${url}/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id) 
+    console.log(id)
     model.update(req.body, {
       where: { id: id },
     })

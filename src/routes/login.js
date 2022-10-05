@@ -5,6 +5,7 @@ const privatekey = require('../auth/private_key')
   
 module.exports = (app) => {
   app.post('/api/login', (req, res) => {
+    console.log(req.body)
     Profile.findOne({ where: { login: req.body.login } }).then(user => {
         if(!user){
             const message = "L'utilisateur demandé n'éxiste pas"
@@ -26,12 +27,12 @@ module.exports = (app) => {
         )
 
         const message = `L'utilisateur a été connecté avec succés`;
-        return res.status(200).json({ message, data: user, token })
+        return res.status(200).json({ message, data: user, token:{token_type:"Bearer", expires_in:86400000,access_token:token} })
       })
     })
     .catch(err => {
         const message = "L'utilisateur n'a pas pu être connecté. Réessayez plus tard !"
-        return res.status(402).json({message, data: err})
+        return res.status(400).json({message, data: err})
     })
   })
 }

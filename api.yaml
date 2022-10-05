@@ -395,76 +395,47 @@ paths:
           description: L'utilisateur a été supprimé
         404:
           description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
-
-  /api/latlongs:
-    get:
-      summary: Renvoie la liste de toutes les coordonées GPS.
-      description: Permet de récupérer la liste de toutes les coordonées GPS enregistrés dans la base de données.
-      responses:
-        200:
-          description: La liste de toutes les coordonées GPS a bien été récupérée. 
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              data:
-                type: array
-                items:
-                  type: object
-                  properties: 
-                    id:
-                      type: integer
-                    latitude:
-                      example: 50.6145
-                    longitude:
-                      example: 3.9752
-                    is_deleted:
-                      type: boolean
-                    createdAt:
-                      type: string
-                    updateAt:
-                      type: integer
-                    pathId: 
-                      type: integer  
-        404:
-          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
-        500:
-          description: La liste de toutes les coordonées GPS n'a pas pu être trouvé. Réessayer plus tard !
-
-  /api/profiles:
-    get:
-      summary: Renvoie la liste de touts les profils.
-      description: Permet de récupérer la liste de tous les profils dans la base de données.
-      responses:
-        200:
-          description: La liste de tous les profils a bien été récupérée.
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              data:
-                type: array
-                items:
-                  type: object
-                  properties: 
-                    id:
-                      type: integer
-                    login:
-                      type: string
-                    password:
-                      type: string
-                    is_deleted:
-                      type: boolean
-                    createdAt:
-                      type: string
-                    updateAt:
-                      type: integer
-                    hikkerId: 
-                      type: integer  
-        404:
-          description: Impossible de trouver la ressource demandée ! Essayer une autre URL !
-        500:
-          description: La liste de tous les profils n'a pas pu être trouvé. Réessayer plus tard !
-
+    #TODO refaire l'update de path
+    # put:
+    #   security:
+    #     - bearerAuth: []
+    #   tags:
+    #   - paths
+    #   summary: Permet de mettre à jour un chemin de randonnée
+    #   parameters:
+    #     - name : pathId
+    #       in: path
+    #       required: true
+    #       schema: 
+    #         type: integer
+    #   consumes:
+    #     - application/json
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           type: object
+    #           properties:
+    #             name:
+    #               example: Chemin sympathique
+    #               type: string
+    #             description:
+    #               example: description
+    #               type: string
+    #             hikkerId:
+    #               example: 1
+    #               type: integer
+    #             latlongs:
+    #                 type: array
+    #                 items: 
+    #                   type: object
+    #                   properties:
+    #                     latitude:
+    #                       type: number
+    #                       example: 50.6412
+    #                     longitude:
+    #                       type: number
+    #                       example: 3.5666
+    #   responses:
+    #     200:
+    #       description: ok

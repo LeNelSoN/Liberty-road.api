@@ -9,25 +9,25 @@ module.exports = (app, url, model, messageCible) => {
         if(item){
           const {dataValues:{id}} = item
           const latlongs = req.body.latlongs
-          latlongs.map(({latitude, longitude }) => {
-            LatLong.create({latitude, longitude, pathId: id})
-            .catch(err => {
-              model.destroy({
-                where: {
-                  id: id
-                },
-                force: true
-              })
-              const message = `${messageCible} n'a pas pu être créé!`
-              res.status(500).json({message, data: err})
-              return item
-            })
-            .then((item) => {
+          latlongs.map(item => item.pathId = id)
+          console.log(latlongs)
+          LatLong.bulkCreate(latlongs)
+            .then(_ =>{ 
               const message = `${messageCible} a bien été crée`;
               res.json({ message, data: item });
               return
             })
-          })
+            .catch(err => {
+                  model.destroy({
+                    where: {
+                      id: id
+                    },
+                    force: true
+                  })
+                  const message = `${messageCible} n'a pas pu être créé!`
+                  res.status(500).json({message, data: err})
+                  return item
+                })
         }
       })
       .catch(err => {

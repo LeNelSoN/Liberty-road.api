@@ -11,11 +11,14 @@ const swaggerUi = require('swagger-ui-express');
 const YAML= require('yamljs');
 const swaggerJsDocs=YAML.load('./api.yaml');
 
-//Documentation: http://localhost:5000/api-docs/
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs));
+//CORS
+const cors = require('cors')
 
-app
-.use(bodyParser.json());
+//Documentation: http://localhost:5000/api-docs/
+app.use(cors()).use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs)).use(bodyParser.json());
+
+// app
+// .use(bodyParser.json());
 
 initDB();
 TableRelation();
@@ -24,12 +27,10 @@ TableRelation();
 const tableForRoutes = [
     ['hikkers', Hikker, "utilisateur(s)"],
     ['paths', Path, 'chemin(s)'],
-    ['latlongs', LatLong , 'Coordonnée(s)'],
-    ['profiles', Profile, 'Profile(s)'],
-    ['friends', Friend, 'Amitié']
+    // ['latlongs', LatLong , 'Coordonnée(s)'],
+    // ['profiles', Profile, 'Profile(s)'],
+    // ['friends', Friend, 'Amitié']
 ]
-
-
 
 tableForRoutes.map(
     item => {
