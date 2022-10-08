@@ -37,7 +37,7 @@ tableForRoutes.map(
         //Create
         require('./src/routes/create')(app, item[0], item[1], item[2])
         //READ
-        require('./src/routes/findAll')(app, item[0], item[1], item[2]);
+        // require('./src/routes/findAll')(app, item[0], item[1], item[2]);
         require('./src/routes/findByPk')(app, item[0], item[1], item[2]); 
         //Update
         require('./src/routes/update')(app, item[0], item[1], item[2]);

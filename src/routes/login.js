@@ -21,7 +21,7 @@ module.exports = (app) => {
         
         //JWT
         const token = jwt.sign(
-          { userId: user.id },
+          { userId: user.hikkerId },
           privatekey,
           { expiresIn: '24h' }
         )
