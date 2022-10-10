@@ -15,7 +15,7 @@ const swaggerJsDocs=YAML.load('./api.yaml');
 const cors = require('cors')
 
 //Documentation: http://localhost:5000/api-docs/
-app.use(cors()).use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs)).use(bodyParser.json());
+app.use(cors({origin:true, credentials: true})).use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs)).use(bodyParser.json());
 
 // app
 // .use(bodyParser.json());
@@ -48,6 +48,9 @@ tableForRoutes.map(
 
 //LOGIN
 require('./src/routes/login')(app);
+
+//CHECK
+require('./src/routes/check')(app);
 
 //REGISTRATION
 require('./src/routes/registration')(app);

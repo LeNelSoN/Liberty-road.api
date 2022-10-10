@@ -5,8 +5,8 @@ const privatekey = require('../auth/private_key')
   
 module.exports = (app) => {
   app.post('/api/login', (req, res) => {
-    console.log(req.body)
-    Profile.findOne({ where: { login: req.body.login } }).then(user => {
+    console.log(req.headers.authorization)
+      Profile.findOne({ where: { login: req.body.login } }).then(user => {
         if(!user){
             const message = "L'utilisateur demandé n'éxiste pas"
             return res.status(400).json({message})
@@ -21,9 +21,11 @@ module.exports = (app) => {
         
         //JWT
         const token = jwt.sign(
-          { userId: user.hikkerId },
+          { hikkerId: user.hikkerId,
+            isAdmin: user.isAdmin
+          },
           privatekey,
-          { expiresIn: '24h' }
+          { expiresIn: '24h' },
         )
 
         const message = `L'utilisateur a été connecté avec succés`;

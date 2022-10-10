@@ -3,7 +3,6 @@ const auth = require('../auth/auth');
 
 module.exports = (app, url, model, messageCible) => {
   app.get(`/api/${url}/:id/`, auth, (req, res) => {
-    const hikkerId = parseInt(req.headers.hikkerid);
     if (url === "hikkers" && req.query.with == "paths") {
       Hikker.findByPk(req.params.id).then((hikker) => {
         const id = req.params.id

@@ -14,9 +14,8 @@ module.exports = (app) => {
             Profile.findOne({ where: { login: login } }).then(user => {
                 if(user){
                     const message = "L'utilisateur demandé existe déjà"
-                    return res.status(409).json({message})
+                    return res.status(409).json({message, data:login})
                 }
-                const appUserId = 0;
                 bcrypt.hash(password, 10)
                     .then(hash => {
                         return Profile.create({login, password: hash})
@@ -31,12 +30,15 @@ module.exports = (app) => {
                         return Profile.update({hikkerId:id}, {
                             where: { id: appUserId },
                           }).then(_ => res.status(201).json({message: "l'utilisateur a été créé"}))
-                    })
-                    .catch(err => {
-                        const message = "L'utilisateur n'a pas pu être créé. Réessayez plus tard !"
-                        return res.json({message, data: err})
-          })
-        })
+                    })})
+            .catch(err => {
+                const message = "L'utilisateur n'a pas pu être créé. Réessayez plus tard !"
+                return res.json({message, data: err})
+            })
+            
+            
         }
         
-  })}
+  })
+
+}
