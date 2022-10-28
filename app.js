@@ -4,56 +4,49 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const bodyParser = require("body-parser");
-const { initDB, Hikker, Path, LatLong, Profile, Friend } = require('./src/db/sequelize')
+const { initDB } = require('./src/db/sequelize')
 const TableRelation = require('./src/models/relationship')
-
-const swaggerUi = require('swagger-ui-express');
-const YAML= require('yamljs');
-const swaggerJsDocs=YAML.load('./api.yaml');
 
 //CORS
 const cors = require('cors')
 
-//Documentation: http://localhost:5000/api-docs/
-app.use(cors({origin:true, credentials: true})).use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs)).use(bodyParser.json());
+app.use(cors({origin:true, credentials: true})).use(bodyParser.json());
 
 // app
 // .use(bodyParser.json());
 
-initDB();
+// initDB();
 TableRelation();
 
 //EndPoints:
-const tableForRoutes = [
-    ['hikkers', Hikker, "utilisateur(s)"],
-    ['paths', Path, 'chemin(s)'],
-    // ['latlongs', LatLong , 'Coordonnée(s)'],
-    // ['profiles', Profile, 'Profile(s)'],
-    // ['friends', Friend, 'Amitié']
-]
+//Creation de compte
+require('./src/routes/POST/mail')(app)
 
-tableForRoutes.map(
-    item => {
-        //Create
-        require('./src/routes/create')(app, item[0], item[1], item[2])
-        //READ
-        // require('./src/routes/findAll')(app, item[0], item[1], item[2]);
-        require('./src/routes/findByPk')(app, item[0], item[1], item[2]); 
-        //Update
-        require('./src/routes/update')(app, item[0], item[1], item[2]);
-        //Delete
-        require('./src/routes/delete')(app, item[0], item[1], item[2]);
-    }
-)
+//Registration
+require('./src/routes/GET/registration')(app);
 
-//LOGIN
-require('./src/routes/login')(app);
+//Login
+require('./src/routes/POST/login')(app);
 
-//CHECK
-require('./src/routes/check')(app);
+//Check
+require('./src/routes/GET/check')(app);
 
-//REGISTRATION
-require('./src/routes/registration')(app);
+//CreatePaths
+require('./src/routes/POST/createPaths')(app)
+
+//Read
+require('./src/routes/GET/findHikkers')(app)
+require('./src/routes/findPaths')(app)
+//Is Admin
+require('./src/routes/GET/findAll')(app)
+
+//Update
+require('./src/routes/PUT/updatePath')(app)
+require('./src/routes/PUT/updateHikkers')(app)
+
+//Recuperation
+require('./src/routes/POST/recuperation')(app)
+
 
 //ERREUR 404
 app.use(({res}) => {

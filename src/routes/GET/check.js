@@ -1,14 +1,11 @@
-const { Profile } = require('../db/sequelize')
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const privateKey = require('../auth/private_key')
-const auth = require('../auth/auth');
+const privateKey = require('../../auth/private_key')
   
 module.exports = (app) => {
   app.get('/api/check', (req, res) => {
     const authorizationHeader = req.headers.authorization
     const token = authorizationHeader.split(' ')[1]
-    const decodedToken = jwt.verify(token, privateKey, (error, decodedToken) => {
+    jwt.verify(token, privateKey, (error, decodedToken) => {
 
     const hikkerId = decodedToken.hikkerId
     const isAdmin = decodedToken.isAdmin

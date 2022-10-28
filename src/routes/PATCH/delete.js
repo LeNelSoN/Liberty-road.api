@@ -1,4 +1,4 @@
-const auth = require('../auth/auth')
+const auth = require('../../auth/auth')
 
 module.exports = (app, url, model, messageCible) => {
   app.patch(`/api/${url}/:id`, auth, (req, res) => {

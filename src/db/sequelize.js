@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const bcrypt = require('bcrypt')
 
 //Models
-const { PathModel, hikkerModel, latlongModel, friendModel, profileModel } = require("../models/index.model");
+const { PathModel, hikkerModel, latlongModel, profileModel } = require("../models/index.model");
 const Data = require("./index.db");
 
 //DATA
@@ -22,7 +22,6 @@ if (process.env.NODE_ENV === 'development') {
 const Path = PathModel(sequelize, DataTypes);
 const Hikker = hikkerModel(sequelize, DataTypes);
 const LatLong = latlongModel(sequelize, DataTypes);
-const Friend = friendModel(sequelize, DataTypes);
 const Profile = profileModel(sequelize, DataTypes);
 
 const initDB = () => {
@@ -51,10 +50,9 @@ const initDB = () => {
         longitude
       })
     })
-    Friend.create()
 
     bcrypt.hash('LePassword', 10)
-    .then(hash => Profile.create({login:'SuperUtilisateur', password: hash, isAdmin: 1}))
+    .then(hash => Profile.create({login:'nelis.valentin@gmail.com', password: hash, isAdmin: 1}))
   });
 };
 
@@ -64,6 +62,5 @@ module.exports = {
   Path,
   Hikker,
   LatLong,
-  Friend,
   Profile
 };

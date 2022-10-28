@@ -1,11 +1,11 @@
-const { Profile } = require('../db/sequelize')
+const { Profile } = require('../../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const privatekey = require('../auth/private_key')
+const privatekey = require('../../auth/private_key')
   
 module.exports = (app) => {
   app.post('/api/login', (req, res) => {
-    console.log(req.headers.authorization)
+    console.log('Connection')
       Profile.findOne({ where: { login: req.body.login } }).then(user => {
         if(!user){
             const message = "L'utilisateur demandé n'éxiste pas"

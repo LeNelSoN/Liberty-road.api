@@ -1,4 +1,4 @@
-const { Path, Hikker, LatLong, Friend, Profile } = require('../db/sequelize');
+const { Path, Hikker, LatLong,  Profile } = require('../db/sequelize');
 
 module.exports = TableRelation = () => {
     Hikker.hasOne(Path);
@@ -9,7 +9,4 @@ module.exports = TableRelation = () => {
 
     Hikker.hasOne(Profile);
     Profile.hasOne(Hikker);
-
-    Hikker.belongsToMany(Profile, { through: Friend });
-    Profile.belongsToMany(Hikker, { through: Friend });
   }
