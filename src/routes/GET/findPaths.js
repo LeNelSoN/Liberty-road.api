@@ -1,5 +1,5 @@
-const { Path, LatLong } = require('../db/sequelize')
-const auth = require('../auth/auth');
+const { Path, LatLong } = require('../../db/sequelize')
+const auth = require('../../auth/auth');
 
 module.exports = (app) => {
     app.get(`/api/paths/:id/`, auth, (req, res) => {

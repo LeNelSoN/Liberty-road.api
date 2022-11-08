@@ -48,5 +48,4 @@ module.exports = (app) => {
             return res.json({message, data: err})
         })
     })
-
 }

@@ -4,7 +4,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const bodyParser = require("body-parser");
-const { initDB } = require('./src/db/sequelize')
+const { initDB, 
+        Path,
+        Hikker,
+        LatLong,
+        Profile } = require('./src/db/sequelize')
+
 const TableRelation = require('./src/models/relationship')
 
 //CORS
@@ -36,7 +41,7 @@ require('./src/routes/POST/createPaths')(app)
 
 //Read
 require('./src/routes/GET/findHikkers')(app)
-require('./src/routes/findPaths')(app)
+require('./src/routes/GET/findPaths')(app)
 //Is Admin
 require('./src/routes/GET/findAll')(app)
 
@@ -47,6 +52,8 @@ require('./src/routes/PUT/updateHikkers')(app)
 //Recuperation
 require('./src/routes/POST/recuperation')(app)
 
+//Delete
+require('./src/routes/PATCH/delete')(app)
 
 //ERREUR 404
 app.use(({res}) => {

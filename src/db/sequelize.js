@@ -31,25 +31,6 @@ const initDB = () => {
     )
     .then((_) => {
     console.log('la base de donnée "Liberty Road" a bien été synchronisée.');
-    paths.map(({name, description}) => {
-      Path.create({
-        name,
-        description,
-      });
-    });
-    hikkers.map(({username, password, address}) => {
-      Hikker.create({
-        username,
-        password,
-        address
-      })
-    })
-    latlong.map(({latitude, longitude}) => {
-      LatLong.create({
-        latitude,
-        longitude
-      })
-    })
 
     bcrypt.hash('LePassword', 10)
     .then(hash => Profile.create({login:'nelis.valentin@gmail.com', password: hash, isAdmin: 1}))
