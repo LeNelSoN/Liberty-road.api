@@ -1,7 +1,8 @@
 const express = require("express");
 
 const app = express();
-const port = process.env.PORT || 5000;
+require('dotenv').config();
+const port = process.env.LOCAL_PORT || 5000;
 
 const bodyParser = require("body-parser");
 const { initDB, 
@@ -20,7 +21,10 @@ app.use(cors({origin:true, credentials: true})).use(bodyParser.json());
 // app
 // .use(bodyParser.json());
 
-// initDB();
+if (process.env.NODE_ENV === 'production') {
+    initDB();    
+}
+
 TableRelation();
 
 //EndPoints:
@@ -59,6 +63,11 @@ require('./src/routes/PATCH/delete')(app)
 app.use(({res}) => {
     const message = 'Impossible de trouver la ressource demandée ! Essayer une autre URL !';
     res.status(404).json({message})
+})
+
+app.get('/', (req, res) => {
+    const message = `Hello Node !!!`;
+    res.json({ message});
 })
 
 app.listen(port, () =>

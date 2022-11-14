@@ -47,8 +47,8 @@ module.exports = (app) => {
                 port: 465,
                 secure: true,
                 auth:{
-                    user: 'nelis.valentin@gmail.com',
-                    pass: 'yfmwaywafrhnxhtc'
+                    user: process.env.USER_MAIL,
+                    pass: process.env.USER_MAIL_PASSWORD
                 }
             })
             
@@ -56,7 +56,7 @@ module.exports = (app) => {
                 from: 'nelis.valentin@gmail.com',
                 to: login,
                 subject:`Mail inscription ${pseudo}`,
-                html:`Cliquez sur ce <a target='_blank' href='http://localhost:5000/api/registration/${createdToken}'>lien</a> pour valider la création de votre compte et connectez vous`
+                html:`Cliquez sur ce <a target='_blank' href='http://localhost:${process.env.LOCAL_PORT}/api/registration/${createdToken}'>lien</a> pour valider la création de votre compte et connectez vous`
             }
             
             transporter.sendMail(options)
