@@ -1,29 +1,37 @@
 const express = require("express");
 
+const dbModel = require("./src/models/db.model");
+
 const app = express();
 require('dotenv').config();
 const port = process.env.LOCAL_PORT || 5000;
 
 const bodyParser = require("body-parser");
-const { initDB, 
-        Path,
-        Hikker,
-        LatLong,
-        Profile } = require('./src/db/sequelize')
+const { initDB, sequelize} = require('./src/db/sequelize')
 
 const TableRelation = require('./src/models/relationship')
 
 //CORS
-const cors = require('cors')
+const cors = require('cors');
 
 app.use(cors({origin:true, credentials: true})).use(bodyParser.json());
 
 // app
 // .use(bodyParser.json());
+sequelize.query(`SHOW TABLES FROM ${process.env.DB_NAME}`)
+    .then(([results,_]) => {
+        
+        if (process.env.NODE_ENV === 'production' && results == dbModel) {
+            initDB();    
+        }else{
+            console.log("Base de donnée, conforme !!");
+        }
+    })
+    .catch(err =>{
+        console.log("Erreur connection");
+        initDB();
+    });
 
-if (process.env.NODE_ENV === 'production') {
-    initDB();    
-}
 
 TableRelation();
 

@@ -2,7 +2,7 @@ const auth = require('../../auth/auth');
 const { Path, Hikker } = require('../../db/sequelize');
 
 module.exports = (app) => {
-  app.patch(`/api/hikkers/:id/`, auth, (req, res) => {
+  app.patch(`/api/hikkers/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id);
     Hikker.destroy({where: {id : id}})
       .then(_ => {
@@ -15,7 +15,7 @@ module.exports = (app) => {
       });
   });
   
-  app.patch(`/api/paths/:id/`, auth, (req, res) => {
+  app.patch(`/api/paths/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id);
     Path.destroy({where: {id : id}})
       .then(_ => {

@@ -39,11 +39,14 @@ const initDB = () => {
     console.log('la base de donnée "Liberty Road" a bien été synchronisée.');
 
     bcrypt.hash('LePassword', 10)
-    .then(hash => Profile.create({login:'nelis.valentin@gmail.com', password: hash, isAdmin: 1}))
-  });
+    .then(hash => {
+      Profile.create({login:'nelis.valentin@gmail.com', password: hash, isAdmin: 1})
+    }
+  )});
 };
 
 module.exports = {
+  sequelize,
   initDB,
   Path,
   Hikker,

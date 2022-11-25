@@ -1,5 +1,5 @@
 const auth = require('../../auth/auth');
-const { Path, Hikker } = require('../../db/sequelize');
+const { Path, Hikker, Profile, LatLong} = require('../../db/sequelize');
 
 module.exports = (app) => {
   app.get(`/api/paths`, auth, (req, res) => {
@@ -17,7 +17,11 @@ module.exports = (app) => {
 
   app.get(`/api/hikkers`, auth, (req, res) => {
     //TODO IsAdmin verif
-    Hikker.findAll()
+    Hikker.findAll({
+      include: [{
+        model: Profile
+      }]
+    })
       .then((items) => {
         const message = `La liste des utilisateurs a bien été récupérée.`;
         res.json({ message, data: items });
@@ -27,5 +31,6 @@ module.exports = (app) => {
         res.status(500).json({message, data: err})
       })
     });
+
 };
 
