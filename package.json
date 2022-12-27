@@ -6,7 +6,10 @@
   "scripts": {
     "start": "NODE_ENV=production node app.js",
     "dev": "NODE_ENV=development nodemon app.js",
-    "debug": "NODE_ENV=development node app.js"
+    "debug": "NODE_ENV=development node app.js",
+    "remove image": "docker rmi liberty_road.api",
+    "build image": "docker compose up"
+
   },
   "author": "Valentin Nelis",
   "license": "ISC",
