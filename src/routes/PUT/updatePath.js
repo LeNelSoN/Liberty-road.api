@@ -5,7 +5,7 @@ module.exports = (app) => {
   app.put(`/api/paths/:id`, auth, (req, res) => {
     const id = parseInt(req.params.id) 
     Path.update(req.body, {
-      where: { id: id },
+      where: { id },
     })
       .then((_) => {
         return Path.findByPk(id).then((item) => {

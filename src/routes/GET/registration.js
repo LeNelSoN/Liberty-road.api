@@ -2,6 +2,7 @@ const {Profile} = require('../../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const privateKey = require('../../auth/private_key')
+const { creatHash } = require('../../auth/hashPassword.service')
 
 module.exports = (app) => {
     app.get('/api/registration/:token', (req, res) => {
@@ -28,7 +29,7 @@ module.exports = (app) => {
                 const message = "L'utilisateur demandé existe déjà"
                 return res.status(409).json({message, data:login})
             }
-            bcrypt.hash(password, 10)
+            creatHash(password)
                 .then(hash => {
                     return Profile.create({login, password: hash})
                 })
