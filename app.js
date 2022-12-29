@@ -1,14 +1,10 @@
 const express = require("express");
-
 const dbModel = require("./src/models/db.model");
-
 const app = express();
 require('dotenv').config();
 const port = process.env.LOCAL_PORT || 5000;
-
 const bodyParser = require("body-parser");
 const { initDB, sequelize} = require('./src/db/sequelize')
-
 const TableRelation = require('./src/models/relationship')
 
 //CORS
@@ -17,7 +13,6 @@ const cors = require('cors');
 app.use(cors({origin:true, credentials: true})).use(bodyParser.json());
 
 // app
-// .use(bodyParser.json());
 sequelize.query(`SHOW TABLES FROM ${process.env.DB_NAME}`)
     .then(([results,_]) => {
         

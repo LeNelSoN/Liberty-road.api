@@ -5,9 +5,7 @@ require('dotenv').config();
 //Models
 const { PathModel, hikkerModel, latlongModel, profileModel } = require("../models/index.model");
 const Data = require("./index.db");
-
-//DATA
-const { paths, hikkers, latlong } = require("./index.db");
+const { creatHash } = require("../auth/hashPassword.service");
 
 let sequelize;
 if (process.env.NODE_ENV === 'development') {
@@ -37,8 +35,8 @@ const initDB = () => {
     )
     .then((_) => {
     console.log('la base de donnée "Liberty Road" a bien été synchronisée.');
-
-    bcrypt.hash('LePassword', 10)
+    
+    creatHash('LePassword')
     .then(hash => {
       Profile.create({login:'nelis.valentin@gmail.com', password: hash, isAdmin: 1})
     }
